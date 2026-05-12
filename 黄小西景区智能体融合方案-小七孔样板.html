@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>小七孔小程序改版方案</title>
+  <title>黄小西景区智能体与景区业务系统融合方案——以小七孔为样板</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
     *{margin:0;padding:0;box-sizing:border-box}
@@ -24,10 +24,14 @@
     .hero{
       background:var(--green-deep);
       color:#fff;
-      padding:48px 24px 40px;
+      min-height:100vh;
+      padding:96px 24px 72px;
       text-align:center;
       position:relative;
-      overflow:hidden
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      justify-content:center
     }
     /* 顶部背景图透明度：60% */
     .hero::before{
@@ -52,24 +56,24 @@
       z-index:1;
     }
     .hero *{position:relative;z-index:2}
-    .hero h1{font-size:28px;font-weight:800;letter-spacing:1px;margin-bottom:8px;text-shadow:0 10px 30px rgba(0,0,0,0.45),0 2px 8px rgba(0,0,0,0.35)}
-    .hero .sub{font-size:15px;color:rgba(255,255,255,0.92);margin-bottom:16px;text-shadow:0 8px 22px rgba(0,0,0,0.35),0 2px 6px rgba(0,0,0,0.25)}
+    .hero h1{font-size:clamp(28px,4.2vw,46px);font-weight:900;letter-spacing:1px;margin-bottom:10px;text-shadow:0 12px 34px rgba(0,0,0,0.45),0 2px 10px rgba(0,0,0,0.35);max-width:1280px;margin-left:auto;margin-right:auto}
+    .hero .sub{font-size:clamp(14px,1.6vw,18px);color:rgba(255,255,255,0.92);margin-bottom:18px;text-shadow:0 10px 24px rgba(0,0,0,0.35),0 2px 6px rgba(0,0,0,0.25);max-width:1120px;margin-left:auto;margin-right:auto}
     .brand-row{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
-    .brand-tag{padding:5px 16px;border-radius:20px;font-size:13px;font-weight:700;text-shadow:0 6px 16px rgba(0,0,0,0.25)}
+    .brand-tag{padding:6px 16px;border-radius:20px;font-size:clamp(12px,1.25vw,14px);font-weight:800;text-shadow:0 8px 18px rgba(0,0,0,0.25)}
     .brand-hxx{background:rgba(34,197,94,0.22);border:1px solid rgba(34,197,94,0.5);color:var(--green-soft)}
     .brand-gd{background:rgba(20,184,166,0.20);border:1px solid rgba(20,184,166,0.5);color:#99f6e4}
-    .brand-x{font-size:16px;color:rgba(255,255,255,0.75);font-weight:800;text-shadow:0 8px 22px rgba(0,0,0,0.35)}
+    .brand-x{font-size:clamp(14px,1.6vw,18px);color:rgba(255,255,255,0.75);font-weight:900;text-shadow:0 10px 24px rgba(0,0,0,0.35)}
     .hero-stats{display:flex;justify-content:center;gap:32px;margin-top:24px;flex-wrap:wrap}
     .hero-stat{text-align:center}
-    .hero-stat .val{font-size:28px;font-weight:800;color:var(--green-soft);text-shadow:0 10px 26px rgba(0,0,0,0.35)}
-    .hero-stat .lbl{font-size:11px;color:rgba(255,255,255,0.78);margin-top:2px;text-shadow:0 8px 18px rgba(0,0,0,0.30)}
+    .hero-stat .val{font-size:clamp(22px,3.2vw,40px);font-weight:900;color:var(--green-soft);text-shadow:0 12px 26px rgba(0,0,0,0.35)}
+    .hero-stat .lbl{font-size:clamp(11px,1.2vw,13px);color:rgba(255,255,255,0.80);margin-top:4px;text-shadow:0 8px 18px rgba(0,0,0,0.30)}
 
     /* ---- Container ---- */
-    .container{width:100%;max-width:1500px;margin:0 auto;padding:0 20px 48px}
+    .container{width:100%;max-width:1920px;margin:0 auto;padding:0 32px 60px}
 
     /* ---- Demo (GIF) ---- */
     /* 用 zoom 做等比缩放（会影响布局高度），确保同一行卡片高度与动图一致 */
-    .demo-card{background:#fff;border:1px solid #e5e7eb;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.08);zoom:0.5}
+    .demo-card{background:#fff;border:1px solid #e5e7eb;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.08);zoom:0.42}
     .demo-head{padding:16px 18px;background:linear-gradient(135deg,var(--green-deep),rgba(5,150,105,0.95));color:#fff}
     .demo-head .t{font-size:14px;font-weight:700}
     .demo-head .d{font-size:11px;color:rgba(255,255,255,0.65);margin-top:4px}
@@ -77,15 +81,14 @@
     .demo-gif{width:100%;border-radius:12px;border:1px solid #e5e7eb;display:block}
     .demo-note{margin-top:10px;font-size:11px;color:#6b7280;line-height:1.6}
 
-    /* ---- Compact rows: smaller right media + shorter left cards (sync height) ---- */
-    .scene.compact .demo-card{zoom:0.42}
-    .scene.compact .card{padding:14px 16px}
-    .scene.compact .card-emoji{font-size:18px}
-    .scene.compact .card-title{font-size:13px}
-    .scene.compact .card-body{font-size:11.5px;line-height:1.6}
-    .scene.compact .uplift{margin-top:10px;padding:6px 10px}
-    .scene.compact .metric-val{font-size:16px}
-    .scene.compact .metric-unit{font-size:9.5px}
+    /* ---- Rows with right media: scale media + align card size ---- */
+    .scene.with-demo .card{padding:14px 16px}
+    .scene.with-demo .card-emoji{font-size:18px}
+    .scene.with-demo .card-title{font-size:13px}
+    .scene.with-demo .card-body{font-size:11.5px;line-height:1.6}
+    .scene.with-demo .uplift{margin-top:10px;padding:6px 10px}
+    .scene.with-demo .metric-val{font-size:16px}
+    .scene.with-demo .metric-unit{font-size:9.5px}
 
     /* ---- Scene Card (reserve right column for demo) ---- */
     .demo-col{align-self:stretch;display:flex;justify-content:flex-start}
@@ -115,13 +118,14 @@
       user-select:none;
     }
     .media-toggle:hover{filter:brightness(0.98)}
-    .scene.compact .media-toggle{transform:translate(50%,-50%) scale(0.92)}
+    .scene.with-demo .media-toggle{transform:translate(50%,-50%) scale(0.92)}
     .media-toggle svg{width:18px;height:18px;display:block}
 
     /* ---- Phase ---- */
     .phase{margin-top:36px}
     .phase-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding:0 4px}
     .phase-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .phase-icon.p0{background:linear-gradient(135deg,var(--green-1),var(--green-2));color:#fff}
     .phase-icon.p1{background:linear-gradient(135deg,var(--green-1),var(--green-2));color:#fff}
     .phase-icon.p2{background:linear-gradient(135deg,var(--emerald-1),var(--emerald-2));color:#fff}
     .phase-icon.p3{background:linear-gradient(135deg,var(--teal-1),var(--teal-2));color:#fff}
@@ -131,14 +135,27 @@
 
     /* ---- Scene Card ---- */
     .scene{display:grid;grid-template-columns:1fr 48px 1fr 420px;column-gap:18px;row-gap:0;margin-bottom:18px;align-items:stretch}
+    .scene.scene-2col{grid-template-columns:1fr 1fr;column-gap:18px}
     .card{border-radius:12px;padding:18px 20px;position:relative;transition:transform 0.15s}
     .card:hover{transform:translateY(-2px)}
     .card-old{background:#fff;border:1px solid #fecaca;border-left:4px solid #ef4444}
     .card-new{background:#fff;border:1px solid #bbf7d0;border-left:4px solid #16a34a}
 
+    /* ---- Large screens (1920 design) ---- */
+    @media (min-width: 1600px){
+      .scene{grid-template-columns:1fr 56px 1fr 520px;column-gap:22px}
+      .card{padding:20px 24px}
+      .card-title{font-size:15px}
+      .card-body{font-size:13px}
+      .uplift{padding:10px 16px}
+      .metric-val{font-size:20px}
+      .demo-head{padding:18px 20px}
+    }
+
     @media (max-width: 1200px){
       .scene{grid-template-columns:1fr 48px 1fr;row-gap:14px}
       .demo-col{grid-column:1 / -1}
+      .scene.scene-2col{grid-template-columns:1fr}
     }
 
     .card-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
@@ -206,13 +223,141 @@
     /* Small helpers */
     .pill{display:inline-block;font-size:10px;padding:2px 10px;border-radius:999px;background:#ecfdf5;color:#166534;border:1px solid rgba(22,163,74,0.18);margin-left:6px}
     .k{font-weight:700;color:#1a1a2e}
+
+    /* ---- Capability Flow (PART 0) ---- */
+    .cap-flow{display:flex;align-items:stretch;gap:10px;margin-top:2px}
+    .cap-stage{flex:1;background:linear-gradient(180deg,rgba(34,197,94,0.06),rgba(20,184,166,0.03));border:1px solid rgba(34,197,94,0.16);border-radius:12px;padding:12px 12px 10px}
+    .cap-stage .cap-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .cap-stage .cap-title{font-weight:800;color:var(--green-deep);font-size:12.5px}
+    .cap-stage ul{padding-left:16px;margin:0}
+    .cap-stage li{margin:6px 0}
+    .cap-arrow{display:flex;align-items:center;justify-content:center;color:#86efac;font-weight:900;font-size:18px;min-width:18px}
+    @media (max-width: 1200px){
+      .cap-flow{flex-direction:column}
+      .cap-arrow{transform:rotate(90deg)}
+    }
+
+    /* ---- PART 0 as independent template ---- */
+    .part0{margin-top:24px}
+    .part0-template{width:100%;background:#fff;border:1px solid rgba(34,197,94,0.22);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+    .part0-head{background:linear-gradient(135deg,var(--green-deep),rgba(5,150,105,0.95));color:#fff;text-align:center;padding:clamp(16px,2.4vw,26px) clamp(16px,2.8vw,28px)}
+    .part0-head .t{font-size:clamp(16px,2.1vw,22px);font-weight:900;margin-bottom:6px;letter-spacing:0.5px}
+    .part0-head .d{font-size:clamp(11px,1.35vw,13px);color:rgba(255,255,255,0.76)}
+    .part0-body{padding:clamp(16px,2.4vw,22px) clamp(16px,2.8vw,26px) clamp(18px,3vw,26px)}
+    .part0-lead{font-size:clamp(12px,1.35vw,13.5px);color:#4b5563;line-height:1.8}
+    .part0-flow{margin-top:clamp(12px,2vw,16px)}
+    /* 3张大卡片：从左到右 */
+    .part0-flow .cap-stage{
+      background:#fff;
+      border:1px solid rgba(34,197,94,0.18);
+      border-radius:14px;
+      padding:14px 14px 12px;
+      box-shadow:0 10px 24px rgba(0,0,0,0.06);
+    }
+    .part0-flow .cap-h{padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid rgba(34,197,94,0.18)}
+    .part0-flow .cap-title{color:var(--emerald-1);font-size:clamp(13px,1.5vw,15px);font-weight:900}
+    .part0-flow ul{padding-left:16px}
+    .part0-flow li{color:#374151;font-size:clamp(11.5px,1.25vw,12.5px);line-height:1.65}
+    .part0-flow li b{font-weight:800;color:#111827}
+    .part0-flow .cap-q{font-size:clamp(10.5px,1.15vw,11.5px);color:#6b7280;margin-left:4px}
+    .part0-flow .cap-arrow{color:rgba(34,197,94,0.55)}
+    /* PART0 截图：放在三张卡片下面（并排缩小） */
+    .cap-shots{margin-top:14px;display:flex;justify-content:center;gap:100px;flex-wrap:wrap}
+    /* 三张图统一尺寸，并与中间图保持100px间距 */
+    .cap-shot-img{width:clamp(140px,14vw,180px);height:auto;display:block;border-radius:14px;border:1px solid rgba(34,197,94,0.16);box-shadow:0 10px 22px rgba(0,0,0,0.06)}
+    @media (max-width: 900px){
+      .cap-shots{gap:18px}
+      .cap-shot-img{width:min(70vw,240px)}
+    }
+
+    /* ---- PART 2: Data scope (integration with 智慧管理系统 etc.) ---- */
+    .part2{margin:24px 0 6px;min-height:100vh;display:flex}
+    .part2-template{width:100%;background:#fff;border:1px solid rgba(34,197,94,0.22);border-radius:16px;overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,0.06);display:flex;flex-direction:column}
+    /* 与上方Part0区分：偏青绿色背景 */
+    .part2-head{background:linear-gradient(135deg,rgba(2,132,199,0.85),rgba(13,148,136,0.95));color:#fff;text-align:center;padding:clamp(14px,2.2vw,22px) clamp(16px,2.6vw,26px)}
+    .part2-head .t{font-size:clamp(15px,2vw,20px);font-weight:900;line-height:1.35}
+    .part2-head .d{font-size:clamp(11px,1.35vw,13px);color:rgba(255,255,255,0.74);margin-top:6px;line-height:1.6}
+    .part2-body{
+      flex:1;
+      padding:clamp(14px,2.2vw,18px) clamp(14px,2.6vw,20px) clamp(16px,2.8vw,20px);
+      background:linear-gradient(180deg,rgba(240,253,250,0.90) 0%,rgba(255,255,255,1) 62%);
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+    .part2-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,2vw,16px);margin-top:clamp(10px,1.6vw,14px);align-items:stretch}
+    /* 增加A/B板块背景高度（视觉更饱满） */
+    .part2-card{
+      background:#fff;
+      border:1px solid rgba(34,197,94,0.18);
+      border-radius:14px;
+      padding:clamp(14px,2vw,18px);
+      box-shadow:0 12px 26px rgba(0,0,0,0.06);
+      display:flex;
+      flex-direction:column;
+      min-height:clamp(240px,34vh,420px);
+    }
+    .part2-card .h{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(34,197,94,0.16)}
+    .part2-card .ic{width:30px;height:30px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(34,197,94,0.12);color:var(--emerald-1);font-weight:900}
+    .part2-card .tt{font-size:13px;font-weight:900;color:var(--green-deep)}
+    .part2-card ul{padding-left:16px;margin:0}
+    .part2-card li{margin:7px 0;font-size:12px;line-height:1.6;color:#374151}
+    .part2-card li b{color:#111827}
+    .part2-card li .sub{font-size:11px;color:#6b7280;margin-left:6px}
+    .part2-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:999px;background:rgba(34,197,94,0.10);border:1px solid rgba(34,197,94,0.18);color:#166534;margin-left:8px}
+
+    /* Bubble layout for Part 2 (B card) */
+    .bubble-wrap{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;align-content:flex-start}
+    .bubble{
+      border-radius:999px;
+      border:1px solid rgba(16,185,129,0.18);
+      background:linear-gradient(180deg,rgba(236,253,245,0.88),rgba(255,255,255,0.78));
+      box-shadow:0 10px 18px rgba(0,0,0,0.04);
+      padding:10px 14px;
+      color:#14532d;
+      max-width:100%;
+      will-change:transform;
+    }
+    .bubble .b-main{font-weight:900;font-size:clamp(11.5px,1.25vw,13px);color:#064e3b;line-height:1.1}
+    .bubble .b-sub{font-size:clamp(10.5px,1.1vw,11.5px);color:#6b7280;margin-top:4px;line-height:1.25}
+    .bubble.b-lg{padding:12px 16px}
+    .bubble.b-lg .b-main{font-size:13px}
+    .bubble.b-md{padding:10px 14px}
+    .bubble.b-sm{padding:8px 12px}
+    .bubble.b-sm .b-main{font-size:12px}
+    .bubble.b-sm .b-sub{display:none}
+
+    /* bubble color variants (to add visual focus) */
+    .bubble.c-emerald{border-color:rgba(34,197,94,0.28);background:linear-gradient(180deg,rgba(220,252,231,0.92),rgba(240,253,244,0.68))}
+    .bubble.c-teal{border-color:rgba(20,184,166,0.28);background:linear-gradient(180deg,rgba(204,251,241,0.92),rgba(240,253,250,0.68))}
+    .bubble.c-sky{border-color:rgba(59,130,246,0.22);background:linear-gradient(180deg,rgba(219,234,254,0.92),rgba(239,246,255,0.72))}
+    .bubble.c-amber{border-color:rgba(245,158,11,0.24);background:linear-gradient(180deg,rgba(254,243,199,0.92),rgba(255,251,235,0.72))}
+    .bubble.c-slate{border-color:rgba(148,163,184,0.32);background:linear-gradient(180deg,rgba(241,245,249,0.92),rgba(255,255,255,0.78))}
+
+    /* subtle floating interaction */
+    @keyframes bubbleFloat{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-6px)}
+    }
+    .bubble.float-1{animation:bubbleFloat 4.8s ease-in-out infinite}
+    .bubble.float-2{animation:bubbleFloat 5.4s ease-in-out infinite;animation-delay:-1.2s}
+    .bubble.float-3{animation:bubbleFloat 6.0s ease-in-out infinite;animation-delay:-2.1s}
+    .bubble.float-4{animation:bubbleFloat 5.1s ease-in-out infinite;animation-delay:-0.6s}
+    .bubble.float-5{animation:bubbleFloat 6.3s ease-in-out infinite;animation-delay:-3.0s}
+    .part2-note{font-size:clamp(11.5px,1.25vw,12.5px);color:#4b5563;line-height:1.8}
+    @media (max-height: 760px){
+      .part2-body{justify-content:flex-start}
+    }
+    @media (max-width: 1200px){
+      .part2-grid{grid-template-columns:1fr}
+    }
   </style>
 </head>
 <body>
 
   <!-- HERO -->
   <section class="hero">
-    <h1>小七孔小程序改版方案</h1>
+    <h1>黄小西景区智能体与景区业务系统融合方案<br/>以小七孔为样板</h1>
     <div class="sub">以景区智能体贯穿行前-行中-行后，打通数据与交易，让游客体验更顺畅、运营增长更可控。</div>
     <div class="brand-row">
       <span class="brand-tag brand-hxx">景区智能体（我方）</span>
@@ -237,6 +382,144 @@
 
   <main class="container">
 
+    <!-- PART 0 -->
+    <section class="part0">
+      <div class="part0-template">
+        <div class="part0-head">
+          <div class="t">黄小西景区智能体（现有能力）</div>
+          <div class="d">AI导游 × 游客服务中心 × 景区消费助手｜覆盖“游前-游中-游后”全旅程服务</div>
+        </div>
+
+        <div class="part0-body">
+          <div class="part0-lead">
+            黄小西景区智能体不是“单一聊天机器人”，而是一套基于大模型的<b>AI伴游服务体系</b>：在一个入口内把<span class="hl">问答、导览、园区服务与消费承接</span>串成闭环，推动游客从“自己做攻略”升级为“AI全程陪游”。
+          </div>
+
+          <div class="cap-flow part0-flow">
+            <div class="cap-stage">
+              <div class="cap-h">
+                <div class="cap-title">游前</div>
+                <span class="pill">决策&准备</span>
+              </div>
+              <ul>
+                <li><b>信息获取</b><span class="cap-q">（哪个景点好玩）</span></li>
+                <li><b>攻略查询</b><span class="cap-q">（怎么玩 / 怎么走 / 玩多久）</span></li>
+                <li><b>门票购买</b><span class="cap-q">（多少钱 / 怎么买）</span></li>
+                <li><b>交通准备</b><span class="cap-q">（怎么去 / 停哪儿）</span></li>
+              </ul>
+            </div>
+            <div class="cap-arrow">→</div>
+            <div class="cap-stage">
+              <div class="cap-h">
+                <div class="cap-title">游中</div>
+                <span class="pill">伴游&服务</span>
+              </div>
+              <ul>
+                <li><b>讲解伴游</b><span class="cap-q">（边走边看边听：知识/故事/路线）</span></li>
+                <li><b>园区服务</b><span class="cap-q">（找厕所/找设施等刚需）</span></li>
+                <li><b>主动提醒</b><span class="cap-q">（演出/活动提醒、热门点推荐）</span></li>
+                <li><b>AI导览</b><span class="cap-q">（AI拍照/打卡辅助、周边推荐）</span></li>
+                <li><b>消费助手</b><span class="cap-q">（商品购买/消费承接）</span></li>
+              </ul>
+            </div>
+            <div class="cap-arrow">→</div>
+            <div class="cap-stage">
+              <div class="cap-h">
+                <div class="cap-title">游后</div>
+                <span class="pill">分享&传播</span>
+              </div>
+              <ul>
+                <li><b>朋友圈文案一键生成</b><span class="cap-q">（更易分享传播）</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="cap-shots">
+            <img class="cap-shot-img" src="assets/游前.png" alt="游前界面示意" />
+            <img class="cap-shot-img" src="assets/游中.png" alt="游中界面示意" />
+            <img class="cap-shot-img" src="assets/游后.png" alt="游后界面示意" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PART 2 -->
+    <section class="part2">
+      <div class="part2-template">
+        <div class="part2-head">
+          <div class="t">景区智能体与智慧管理等景区内部系统打通，需获取的数据范围</div>
+          <div class="d">先接入关键数据主题，支撑“项目提醒/活动提醒/停车/观光车/天气水况预警”等可落地能力</div>
+        </div>
+
+        <div class="part2-body">
+          <div class="part2-note">
+            数据以智慧管理系统为中枢统一口径接入，分批开放；优先满足“可触发、可推送、可验证”的场景闭环。
+          </div>
+
+          <div class="part2-grid">
+            <div class="part2-card">
+              <div class="h">
+                <div class="ic">A</div>
+                <div class="tt">交易核心数据（先跑通）</div>
+              </div>
+              <div class="bubble-wrap">
+                <div class="bubble b-md c-sky float-2">
+                  <div class="b-main">票务信息</div>
+                  <div class="b-sub">票种 / 价格 / 使用规则</div>
+                </div>
+                <div class="bubble b-lg c-emerald float-1">
+                  <div class="b-main">订单信息</div>
+                  <div class="b-sub">下单 / 支付 / 退款 / 核销（对账与服务闭环）</div>
+                </div>
+                <div class="bubble b-sm c-slate float-4">
+                  <div class="b-main">分销/渠道</div>
+                  <div class="b-sub">渠道来源 / 同步规则</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="part2-card">
+              <div class="h">
+                <div class="ic">B</div>
+                <div class="tt">运营/现场数据（驱动提醒/分流/预警）</div>
+              </div>
+              <div class="bubble-wrap">
+                <div class="bubble b-lg c-emerald float-1">
+                  <div class="b-main">停车场数据</div>
+                  <div class="b-sub">剩余车位 / 饱和阈值 / 推荐停车场</div>
+                </div>
+                <div class="bubble b-md c-teal float-2">
+                  <div class="b-main">闸机/客流</div>
+                  <div class="b-sub">拥挤度 / 热力（错峰分流）</div>
+                </div>
+                <div class="bubble b-md c-sky float-3">
+                  <div class="b-main">观光车数据</div>
+                  <div class="b-sub">车辆位置 / 到站时间 / 运力 / 空座</div>
+                </div>
+                <div class="bubble b-lg c-amber float-4">
+                  <div class="b-main">实时天气水况</div>
+                  <div class="b-sub">短临降雨 / 水位预警 / 风险区域（绕行与避险）</div>
+                </div>
+
+                <div class="bubble b-md c-teal float-5">
+                  <div class="b-main">演艺活动</div>
+                  <div class="b-sub">场次排期 / 地点 / 容量 / 临时变更</div>
+                </div>
+                <div class="bubble b-md c-emerald float-3">
+                  <div class="b-main">游玩项目</div>
+                  <div class="b-sub">项目清单 / 位置 / 价格 / 建议时长</div>
+                </div>
+                <div class="bubble b-sm c-slate float-4">
+                  <div class="b-main">公告</div>
+                  <div class="b-sub">临时管控 / 闭园 / 维护</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- PHASE 1 -->
     <section class="phase">
       <div class="phase-header">
@@ -248,7 +531,7 @@
       </div>
 
       <!-- Scene 01 -->
-      <div class="scene scene-4col">
+      <div class="scene scene-4col with-demo">
         <div class="card card-old">
           <div class="card-head">
             <div class="card-emoji">😩</div>
@@ -269,7 +552,7 @@
           <div class="card-head">
             <div class="card-emoji">🤖</div>
             <div class="card-title">AI一站式规划：一个对话框完成“规划+购票”</div>
-            <span class="card-tag tag-new">智能体模式</span>
+            <span class="card-tag tag-new">票务对接</span>
           </div>
           <div class="card-body">
             用户一句话：<span class="hl">“小七孔怎么玩？帮我买门票”</span><br/>
@@ -301,7 +584,7 @@
       </div>
 
       <!-- Scene 02 -->
-      <div class="scene">
+      <div class="scene with-demo">
         <div class="card card-old">
           <div class="card-head">
             <div class="card-emoji">🅿️</div>
@@ -322,7 +605,7 @@
           <div class="card-head">
             <div class="card-emoji">🚗</div>
             <div class="card-title">智能停车导引：未到先知，提前锁定最优停车方案</div>
-            <span class="card-tag tag-new">数据驱动</span>
+            <span class="card-tag tag-new">停车场数据</span>
           </div>
           <div class="card-body">
             距景区5km或ETA≤15分钟触发推送：<span class="hl">“东门已满，建议前往西门，剩余128个车位，8分钟到达”</span>。<br/>
@@ -365,15 +648,15 @@
       </div>
 
       <!-- Scene 04 -->
-      <div class="scene">
+      <div class="scene with-demo">
         <div class="card card-old">
           <div class="card-head">
             <div class="card-emoji">😵</div>
-            <div class="card-title">到达即懵：不知道从哪走起，体验起点为负</div>
+            <div class="card-title">项目靠问路：不知道附近有什么、怎么去、值不值得排</div>
             <span class="card-tag tag-old">传统模式</span>
           </div>
           <div class="card-body">
-            看导览牌 → 排队问工作人员 → 租讲解器。进入景区第一刻就焦虑，服务无法主动找人。
+            项目信息分散在导览牌/口头咨询：游客需要反复问路、走冤枉路，临近项目才发现“排队太久/不适合”，决策成本高。
           </div>
         </div>
         <div class="vs-col">
@@ -383,19 +666,19 @@
         </div>
         <div class="card card-new">
           <div class="card-head">
-            <div class="card-emoji">✨</div>
-            <div class="card-title">30秒Wow：LBS检测入园，主动弹出欢迎与路线</div>
-            <span class="card-tag tag-new">伴游地图</span>
+            <div class="card-emoji">🧭</div>
+            <div class="card-title">附近项目提醒：位置触发，推送“就近可玩”项目卡片</div>
+            <span class="card-tag tag-new">项目运营</span>
           </div>
           <div class="card-body">
-            进入园区自动弹出：<span class="hl">“欢迎到达东门！为你推荐3.5小时东门进→西门出路线（不走回头路）”</span>。<br/>
-            让服务从“被问”变为<span class="gain">“主动迎接”</span>。
+            基于游客当前位置与项目点位：当接近可玩项目时，自动弹出<span class="hl">项目卡片</span>（名称/排队/价格/建议时长/距离）。<br/>
+            让游客从“到哪儿玩”变为<span class="gain">“走到哪儿，玩到哪儿”</span>，减少走弯路与错过高价值体验。
             <div class="uplift">
               <div class="uplift-label">交付物（节选）</div>
               <div class="uplift-metrics">
-                <div class="metric"><span class="metric-val">路线</span><span class="metric-unit">多策略推荐</span></div>
-                <div class="metric"><span class="metric-val">POI</span><span class="metric-unit">近场触发卡片</span></div>
-                <div class="metric"><span class="metric-val">30s</span><span class="metric-unit">首次Wow</span></div>
+                <div class="metric"><span class="metric-val">POI</span><span class="metric-unit">项目点位</span></div>
+                <div class="metric"><span class="metric-val">LBS</span><span class="metric-unit">近场触发</span></div>
+                <div class="metric"><span class="metric-val">卡片</span><span class="metric-unit">就近可玩</span></div>
               </div>
             </div>
           </div>
@@ -406,25 +689,25 @@
           <div class="demo-card">
             <div class="demo-head">
               <div class="t">界面示意</div>
-              <div class="d">场景04：30秒Wow（入园欢迎/路线推荐）</div>
+              <div class="d">场景04：附近项目提醒（就近可玩/一键查看）</div>
             </div>
             <div class="demo-body">
-              <img class="demo-gif" src="assets/30秒wow.png" alt="30秒Wow界面示意" />
+              <img class="demo-gif" src="assets/附近项目提醒.png" alt="附近项目提醒界面示意" />
             </div>
           </div>
         </div>
       </div>
 
       <!-- Scene 05 -->
-      <div class="scene compact">
+      <div class="scene with-demo">
         <div class="card card-old">
           <div class="card-head">
-            <div class="card-emoji">📸</div>
-            <div class="card-title">走马观花：拍照即走，不懂故事也不知机位</div>
+            <div class="card-emoji">📢</div>
+            <div class="card-title">活动靠运气：被动等广播，常常错过精彩演出</div>
             <span class="card-tag tag-old">传统模式</span>
           </div>
           <div class="card-body">
-            只知道“来过”，不知道“看了什么”。花了门票却没有获得沉浸体验，传播动力弱。
+            演出/活动信息分散在广播、告示牌与口口相传，游客很难在“对的时间”出现在“对的地点”，错过后体验与口碑都受影响。
           </div>
         </div>
         <div class="vs-col">
@@ -434,39 +717,39 @@
         </div>
         <div class="card card-new">
           <div class="card-head">
-            <div class="card-emoji">🎧</div>
-            <div class="card-title">沉浸式伴游：靠近景点自动推送讲解+语音</div>
-            <span class="card-tag tag-new">内容可运营</span>
+            <div class="card-emoji">🔔</div>
+            <div class="card-title">实时活动提醒：位置+时间触发，自动推送活动卡片</div>
+            <span class="card-tag tag-new">活动运营</span>
           </div>
           <div class="card-body">
-            距景点50米自动弹卡：<span class="hl">名称/故事/最佳观景点/今日实况</span>，一键播放专业语音讲解。<br/>
-            让“讲解器/私导体验”在小程序内<span class="gain">零门槛普惠</span>。
+            基于游客当前位置与活动开始时间：在<span class="hl">“将开始/正在进行/附近可达”</span>时自动弹出活动卡片，展示<span class="hl">主题/开场倒计时/地点</span>，并提供一键<span class="gain">“带我去看”</span>。<br/>
+            让活动触达从“靠运气听到”变成“到点必提醒、走到能找到”。
             <div class="uplift">
               <div class="uplift-label">体验提升（示例）</div>
               <div class="uplift-metrics">
-                <div class="metric"><span class="metric-val">2×</span><span class="metric-unit">游览深度</span></div>
-                <div class="metric"><span class="metric-val">+40%</span><span class="metric-unit">停留时长（目标）</span></div>
+                <div class="metric"><span class="metric-val">-50%</span><span class="metric-unit">错过率（目标）</span></div>
+                <div class="metric"><span class="metric-val">+30%</span><span class="metric-unit">活动到场（目标）</span></div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Demo GIF (placed to the right of Scene 05) -->
+        <!-- Image (placed to the right of Scene 05) -->
         <div class="demo-col">
           <div class="demo-card">
             <div class="demo-head">
-              <div class="t">动图演示</div>
-              <div class="d">场景05：沉浸式伴游（近场讲解/语音）</div>
+              <div class="t">界面示意</div>
+              <div class="d">场景05：实时活动提醒（位置+时间推送）</div>
             </div>
             <div class="demo-body">
-              <img class="demo-gif" src="assets/沉浸式伴游演示.gif" alt="沉浸式伴游动图演示" />
+              <img class="demo-gif" src="assets/实时活动提醒.png" alt="实时活动提醒界面示意" />
             </div>
           </div>
         </div>
       </div>
 
       <!-- Scene 06 -->
-      <div class="scene">
+      <div class="scene with-demo">
         <div class="card card-old">
           <div class="card-head">
             <div class="card-emoji">🤳</div>
@@ -517,11 +800,11 @@
       </div>
 
       <!-- Scene 07 -->
-      <div class="scene">
+      <div class="scene with-demo">
         <div class="card card-old">
           <div class="card-head">
             <div class="card-emoji">🚌</div>
-            <div class="card-title">穿梭车盲等：不知道几分钟到、满座坐不上</div>
+            <div class="card-title">观光接驳车盲等：不知道几分钟到、满座坐不上</div>
             <span class="card-tag tag-old">传统模式</span>
           </div>
           <div class="card-body">
@@ -537,7 +820,7 @@
           <div class="card-head">
             <div class="card-emoji">🚐</div>
             <div class="card-title">智能穿梭：实时到站+空座预报（可逐步）</div>
-            <span class="card-tag tag-new">接驳对接</span>
+            <span class="card-tag tag-new">观光车数据</span>
           </div>
           <div class="card-body">
             C端：<span class="hl">“最近站点200米，下一班3分钟到，空座12”</span>。<br/>
@@ -558,17 +841,17 @@
           <div class="demo-card">
             <div class="demo-head">
               <div class="t">界面示意</div>
-              <div class="d">场景07：穿梭车（实时到站/空座预报）</div>
+              <div class="d">场景07：观光接驳车（实时到站/空座预报）</div>
             </div>
             <div class="demo-body">
-              <img class="demo-gif" src="assets/穿梭车.png" alt="穿梭车界面示意" />
+              <img class="demo-gif" src="assets/穿梭车.png" alt="观光接驳车界面示意" />
             </div>
           </div>
         </div>
       </div>
 
       <!-- Scene 08 -->
-      <div class="scene compact">
+      <div class="scene with-demo">
         <div class="card card-old">
           <div class="card-head">
             <div class="card-emoji">🚻</div>
@@ -623,11 +906,12 @@
         <div class="card card-old">
           <div class="card-head">
             <div class="card-emoji">🍜</div>
-            <div class="card-title">景区吃饭：贵且踩雷，游客不敢消费</div>
+            <div class="card-title">吃饭靠碰运气：不懂怎么选，亲子/情侣/健身都不匹配</div>
             <span class="card-tag tag-old">传统模式</span>
           </div>
           <div class="card-body">
-            “景区餐饮=又贵又难吃”成为固有认知，游客宁愿饿着也不消费，二销空间被锁死。
+            餐厅信息不透明、推荐不分人群：亲子担心不方便，情侣找不到氛围位，健身人士怕高油高盐。<br/>
+            结果要么随便凑合、要么干脆不消费，体验与二销都被锁死。
           </div>
         </div>
         <div class="vs-col">
@@ -638,12 +922,13 @@
         <div class="card card-new">
           <div class="card-head">
             <div class="card-emoji">🍲</div>
-            <div class="card-title">精准餐饮推荐 + 官方特惠：把“想吃”变“敢买”</div>
+            <div class="card-title">画像化餐饮推荐：亲子/情侣/健身等一键匹配</div>
             <span class="card-tag tag-new">二销承接</span>
           </div>
           <div class="card-body">
-            结合步行时长+饭点触发推荐：<span class="hl">官方认证餐饮</span> + <span class="hl">智能体专属套餐</span> + <span class="hl">提前下单免排队</span>。<br/>
-            打破心理壁垒，形成<span class="gain">场景化二销</span>。
+            基于游客画像 + 当前位置 + 饭点：自动推荐更“对味”的餐厅与套餐（并支持提前下单）。<br/>
+            例如：<span class="hl">亲子</span>（儿童餐/座位宽松/少辣）｜<span class="hl">情侣</span>（景观位/氛围餐/拍照友好）｜<span class="hl">健身</span>（低油低盐/高蛋白/轻食）。<br/>
+            让选择从“踩雷”变为<span class="gain">“按偏好命中”</span>，同时提升转化与口碑。
             <div class="uplift">
               <div class="uplift-label">增长口径（示例）</div>
               <div class="uplift-metrics">
@@ -656,7 +941,7 @@
       </div>
 
       <!-- Scene 10 -->
-      <div class="scene compact">
+      <div class="scene with-demo">
         <div class="card card-old">
           <div class="card-head">
             <div class="card-emoji">⛈️</div>
@@ -676,7 +961,7 @@
           <div class="card-head">
             <div class="card-emoji">🛡️</div>
             <div class="card-title">AI预判 + 主动干预 + 投诉内化：把风险与舆情前置</div>
-            <span class="card-tag tag-new">安全&运营</span>
+            <span class="card-tag tag-new">实时天气水况等</span>
           </div>
           <div class="card-body">
             天气预警：提前推送“最近避雨点”；项目关闭：路线自动绕行（用户无感切换）；<br/>
@@ -700,7 +985,7 @@
               <div class="d">场景10：突发事件（避雨点/公告）</div>
             </div>
             <div class="demo-body">
-              <img class="demo-gif" src="assets/突发靠运气.png" alt="突发靠运气界面示意" />
+              <img class="demo-gif" src="assets/突发天气水况.png" alt="实时天气水况与应急预警界面示意" />
             </div>
           </div>
         </div>
@@ -714,43 +999,6 @@
         <div class="phase-info">
           <h2>PHASE 3 · 行后留存（把“出园即断联”变为传播与复购）</h2>
           <div class="desc">离开景区后：社交传播 → 跨景区联动 → 全域复购</div>
-        </div>
-      </div>
-
-      <!-- Scene 11 -->
-      <div class="scene">
-        <div class="card card-old">
-          <div class="card-head">
-            <div class="card-emoji">👋</div>
-            <div class="card-title">出园即断联：素材整理1小时，景区零复联</div>
-            <span class="card-tag tag-old">传统模式</span>
-          </div>
-          <div class="card-body">
-            游玩结束→关掉App→自己修图剪视频→朋友圈发完就结束。景区无法沉淀用户关系与口碑传播。
-          </div>
-        </div>
-        <div class="vs-col">
-          <div class="vs-line"></div>
-          <div class="vs-badge b3">11</div>
-          <div class="vs-line"></div>
-        </div>
-        <div class="card card-new">
-          <div class="card-head">
-            <div class="card-emoji">🎬</div>
-            <div class="card-title">AI旅拍一键出片：把游客变“野生代言人”（可选增强）</div>
-            <span class="card-tag tag-new">留存传播</span>
-          </div>
-          <div class="card-body">
-            基于游览轨迹与素材自动生成Vlog/相册（可叠加官方水印与二次推荐）。<br/>
-            让传播从“少数会剪辑的人”变为“人人可发”，拉动自然增长。
-            <div class="uplift">
-              <div class="uplift-label">传播提升（示例）</div>
-              <div class="uplift-metrics">
-                <div class="metric"><span class="metric-val">+200%</span><span class="metric-unit">社交传播量（目标）</span></div>
-                <div class="metric"><span class="metric-val">0</span><span class="metric-unit">创作门槛</span></div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -794,53 +1042,7 @@
 
     <!-- PHASE 4: Integration scope -->
     <section class="phase">
-      <div class="phase-header">
-        <div class="phase-icon p4">⟂</div>
-        <div class="phase-info">
-          <h2>动态数据获取范围</h2>
-          <div class="desc">明确可获取的数据主题与现场动态能力，用于支撑问答、导览、推送与运营看板</div>
-        </div>
-      </div>
-
-      <!-- 模块一：动态数据获取范围 -->
-      <div class="scene">
-        <div class="card card-old">
-          <div class="card-head">
-            <div class="card-emoji">🧩</div>
-            <div class="card-title">数据孤岛：信息静态、问答只能“讲道理”</div>
-            <span class="card-tag tag-old">未对接</span>
-          </div>
-          <div class="card-body">
-            无停车/闸机/人流/接驳等动态数据时，问答与导览无法做到“实时”，只能给通用说明，体验与管理价值受限。
-          </div>
-        </div>
-        <div class="vs-col">
-          <div class="vs-line"></div>
-          <div class="vs-badge b4">A</div>
-          <div class="vs-line"></div>
-        </div>
-        <div class="card card-new">
-          <div class="card-head">
-            <div class="card-emoji">🔗</div>
-            <div class="card-title">动态数据获取范围：让“问答/推送/看板”可实时运转</div>
-            <span class="card-tag tag-new">数据清单</span>
-          </div>
-          <div class="card-body">
-            <span class="k">动态数据对接：</span>以“票务信息、订单信息、营销活动数据、分销/渠道数据、演艺活动管理、游玩项目管理、园内交通信息、公告”等主题为主，分批开放、统一口径接入，为问答、导览、推送与运营看板提供基础数据支撑。<br/>
-            <span class="k">现场动态（用于实时能力）：</span>停车、闸机、客流热力、天气预警等，用于实时问答、错峰分流与安全提醒。
-            <div class="uplift">
-              <div class="uplift-label">联调与验收建议（节选）</div>
-              <div class="uplift-metrics">
-                <div class="metric"><span class="metric-val">字段</span><span class="metric-unit">口径一致</span></div>
-                <div class="metric"><span class="metric-val">频率</span><span class="metric-unit">更新≤X分钟</span></div>
-                <div class="metric"><span class="metric-val">SLA</span><span class="metric-unit">成功率/耗时</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 模块二：票务交易对接方式 -->
+      <!-- 模块：票务交易对接方式 -->
       <div class="phase-header" style="margin-top:22px;">
         <div class="phase-icon p4">⟂</div>
         <div class="phase-info">
@@ -905,9 +1107,9 @@
           <div class="s-item"><span class="s-dot blue"></span>从<b>“五App拼攻略”</b>到<b>“一个对话框3分钟搞定”</b></div>
           <div class="s-item"><span class="s-dot blue"></span>从<b>“到了景区关掉工具”</b>到<b>“全程不离手AI伴游”</b></div>
           <div class="s-item"><span class="s-dot blue"></span>从<b>“拍照即走”</b>到<b>“边走边听边懂”</b></div>
-          <div class="s-item"><span class="s-dot blue"></span>从<b>“盲等穿梭车”</b>到<b>“实时到站+空座预报”</b></div>
+          <div class="s-item"><span class="s-dot blue"></span>从<b>“盲等观光接驳车”</b>到<b>“实时到站+空座预报”</b></div>
           <div class="s-item"><span class="s-dot blue"></span>从<b>“满山找厕所”</b>到<b>“秒级定位+最优选择”</b></div>
-          <div class="s-item"><span class="s-dot blue"></span>从<b>“出园即断联”</b>到<b>“一键出片+跨景区联动”</b></div>
+          <div class="s-item"><span class="s-dot blue"></span>从<b>“出园即断联”</b>到<b>“跨景区联动与复购”</b></div>
         </div>
         <div class="summary-col biz">
           <h3>经营升级</h3>
